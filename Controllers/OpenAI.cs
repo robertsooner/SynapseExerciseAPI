@@ -22,13 +22,35 @@ namespace SynapseExerciseAPI.Controllers
 
 
         // POST api/<OpenAI>
-        [HttpPost("ClinicalNotes/Parse")]
+        [HttpPost("Tuner/ClinicalNotes")]
         [EnableCors("AllowAll")]
         public async Task<ActionResult> Post([FromBody] AIRequest request)
         {
             const int maxRetries = 3;
             int retryCount = 0;
             int delayMs = 1000;
+
+            if (request == null)
+            {
+                return BadRequest("AI Request cannot be null.");
+            } else {
+                if (string.IsNullOrWhiteSpace(request.SystemMessage) || string.IsNullOrWhiteSpace(request.UserMessage) || string.IsNullOrWhiteSpace(request.SamplePrompt))
+                {
+                    return BadRequest("System Message, User Message, and Sample Prompt cannot be null or empty.");
+                }
+                if (request.Temperature < 0 || request.Temperature > 1)
+                {
+                    return BadRequest("Temperature must be between 0 and 1.");
+                }
+                if (request.Topp < 0 || request.Topp > 1)
+                {
+                    return BadRequest("Topp must be between 0 and 1.");
+                }
+                if (request.MaxTokens <= 0)
+                {
+                    return BadRequest("Max Tokens must be greater than zero.");
+                }
+            }
 
             while (true)
             {
