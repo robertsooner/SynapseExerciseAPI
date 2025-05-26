@@ -6,6 +6,7 @@ This project is the backend API for communication with the OpenAI platform.  For
 
 Download the project to your local source location.
 From the directory that you downloaded the project to, click on the "SynapseExerciseAPI.sln" file to open the solution in Visual Studio.
+You will need to insert your OpenAI API key into the appsettings.json file in the "OpenAIKey" property.
 Start the API in Debug mode. The API should be run locally using http (http://localhost:5155). The client is configured to talk to the API at that URL.
 Once the server is running, you can spin up the client.
 
